@@ -21,9 +21,9 @@
  
    Steps:
    1. registering an up arrow key
-   2. keyboard event listenner
+   2. keyboard event listener
    3. make the avatar move associative with the background
-   4. assign the speed to both the up movement and down movement
+   4. assign the speed to both the up movement and falling movement
    5. make a gradual falling speed
    7. make it work on screen
 
