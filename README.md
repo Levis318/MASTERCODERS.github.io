@@ -40,3 +40,7 @@
 3. Solids that eliminate the Player if the User controls the Player into the solid
 4. Tiles that are not solid but act like checkpoints when the user touches them
 5. Enemies that are solid and hurt the Player when the User moves the player into the Enemy
+
+**Page layout and interface**
+
+1. Saveing levels 
