@@ -12,12 +12,23 @@
    Steps:
    1. a registering an arrow key
    2. a keyboard event listener
-   3. make the "square" move asscociative with the background
+   3. make the "square" move associative with the background
    4. assign speed to the avatar
    5. make it work on the screen
    6. handle obstacle mechanics so the avatar doesn't clip through walls
    
-3. Player jumps up and then falls down when User presses the up arrow key
+2. Player jumps up and then falls down when User presses the up arrow key
+ 
+   Steps:
+   1. registering an up arrow key
+   2. keyboard event listenner
+   3. make the avatar move associative with the background
+   4. assign the speed to both the up movement and down movement
+   5. make a gradual falling speed
+   7. make it work on screen
+
+3. Player moves at a curve when both the up arrow key and the left/right arrow key are pressed at the same time
+   1. 
 4. Player has a certain speed
 5. When the User moves the Player the Player’s F.O.V (Field of view) changes
 
