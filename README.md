@@ -12,6 +12,7 @@
    Steps:
    1. a registering an arrow key
    2. a keyboard event listener
+   3. Make the "square" move asscociative with the background
    
 3. Player jumps up and then falls down when User presses the up arrow key
 4. Player has a certain speed
