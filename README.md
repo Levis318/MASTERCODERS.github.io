@@ -23,8 +23,9 @@
    1. registering an up arrow key
    2. keyboard event listener
    3. make the avatar move associative with the background
-   4. assign the speed to both the up movement and falling movement
-   5. make a gradual falling speed
+   4. assign the speed to the the up movement
+   5. assign the speed to the falling movement
+   6. make a gradual falling speed
    7. make it work on screen
 
 3. Player moves at a curve when both the up arrow key and the left/right arrow key are pressed at the same time
