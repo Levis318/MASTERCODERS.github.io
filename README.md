@@ -10,8 +10,8 @@
 1. Player moves left or right when User presses the left or right arrow key
    
    Steps:
-   1. a
-   2. a
+   1. a registering an arrow key
+   2. a keyboard event listener
    
 3. Player jumps up and then falls down when User presses the up arrow key
 4. Player has a certain speed
