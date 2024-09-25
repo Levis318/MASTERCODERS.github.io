@@ -10,10 +10,10 @@
 1. Player moves left or right when User presses the left or right arrow key
    
    Steps:
-   1. a registering an arrow key
+   1. a registering a left and right arrow key
    2. a keyboard event listener
-   3. make the "square" move associative with the background
-   4. assign speed to the avatar
+   3. make the avatar move associative with the background
+   4. assign a gradual moving speed to the avatar
    5. make it work on the screen
    6. handle obstacle mechanics so the avatar doesn't clip through walls
    
@@ -29,10 +29,13 @@
    7. make it work on screen
 
 3. Player moves at a curve when both the up arrow key and the left/right arrow key are pressed at the same time
-   1. 
-4. Player has a certain speed
-5. When the User moves the Player the Player’s F.O.V (Field of view) changes
 
+   Steps:
+   1. make the game allow left/right and up buttons to be pressed at the same time
+   2. make the falling speed and moving speed happen at the same time
+   3. make it work on screen
+
+   
 **Game Solids Elements:**
 
 1. Background is not solid but moves with the player’s F.O.V
