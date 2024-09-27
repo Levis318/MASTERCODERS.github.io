@@ -38,12 +38,12 @@
    
 **Game Solids Elements:**
 
-1. Background is not solid, it is at a fixed point, and it does not change
+1. The background and foreground are not solid, they are at a fixed point, and they do not change nor move
 
       Steps:
-      1. 
-      2. 
-      3. 
+      1. Make a background
+      2. Make a foreground
+      3. make it so that the background and foreground don't move
    
 2. Platforms/walls are solid and can be touched by Player if the User controls the player to do so, but the platforms/walls do not do anything else
       
