@@ -41,9 +41,10 @@
 1. The background and foreground are not solid, they are at a fixed point, and they do not change nor move
 
       Steps:
-      1. Make a background
-      2. Make a foreground
+      1. make a background
+      2. make a foreground
       3. make it so that the background and foreground don't move
+      4. make it work on screen
    
 2. Platforms/walls are solid and can be touched by Player if the User controls the player to do so, but the platforms/walls do not do anything else
       
@@ -73,6 +74,7 @@
       1. 
       2. 
       3. 
+
 
 **Page layout and interface**
 
