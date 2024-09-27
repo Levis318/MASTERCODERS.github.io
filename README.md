@@ -38,11 +38,41 @@
    
 **Game Solids Elements:**
 
-1. Background is not solid but moves with the player’s F.O.V
-2. Platforms/walls are solid and can be touched by Player if the User controls the player to do so but don’t do anything
-3. Solids that eliminate the Player if the User controls the Player into the solid
-4. Tiles that are not solid but act like checkpoints when the user touches them
-5. Enemies that are solid and hurt the Player when the User moves the player into the Enemy
+1. Background is not solid, it is at a fixed point, and it does not change
+
+      Steps:
+      1. 
+      2. 
+      3. 
+   
+2. Platforms/walls are solid and can be touched by Player if the User controls the player to do so, but the platforms/walls do not do anything else
+      
+      Steps:
+      1. 
+      2. 
+      3. 
+
+
+4. Solids that eliminate the Player if the User controls the Player into the solid
+
+      Steps:
+      1. 
+      2. 
+      3. 
+
+5. Tiles that are not solid but act like checkpoints when the User controls the Player to touch them
+
+      Steps: 
+      1. 
+      2. 
+      3. 
+
+6. Enemies that are solid and hurt the Player when the User moves the player into the Enemy
+
+      Steps:
+      1. 
+      2. 
+      3. 
 
 **Page layout and interface**
 
