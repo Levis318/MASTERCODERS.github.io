@@ -105,11 +105,12 @@
    1. sync the saveing mechanic to the checkpoints (make it so that when the player gets a checkpoint it saves there at the same time the player touches the checkpoint)
    2. make it so that the game has local saveing (if you restart the game it will get rid of saves but if you close the game your saves will be stored)
 
-2. Menu
+2. Menu, also when the User presses "M" it sends the User to the menu
 
    Steps:
    1. make a background for the menu
-   2. 
+   2. have a keyboard listener for when "E" is pressed to go to the actual game
+   3. have keyboard listener for when the player presses "M"
    
 
 
