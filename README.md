@@ -63,7 +63,7 @@
       Steps:
       1. make an image for the solid
       2. give the solid a damage hitbox
-      3. implement a elimination system (This might need its own step)
+      3. implement a elimination system for the player (This might need its own step)
 
 5. Tiles that are not solid but act like checkpoints when the User controls the Player to touch them
 
@@ -72,15 +72,25 @@
       2. make a respawn system
       3. make it so that the tile is the place where the avatar will respawn at
 
-6. Enemies that are solid and hurt the Player when the User moves the player into the Enemy
-
+6. Enemies that are solid and hurt the Player when the User moves the player into the Enemy but die if the player falls on top of it
+   
       Steps:
       1. make an image for the enemies
       2. make it so that the enemies move
       3. assign a speed the enemies
       4. give a damage hitbox to the enemies
-      5. implement a elimination system
+      5. make a elimination system for the enemies
+      6. make it so that if the player falls on top of an enemy it gets eliminated
+      7. implement a elimination system for the player
 
+7. "Turrets" that are solid and shoot projectiles that harm the player if the player is hit by one and once the projectile make collision with something it disappears
+      Steps:
+      1. make an image for the turrets
+      2. give the projectiles damage hitboxes
+      3. make it so that if the projectile touches something it disappears
+      4. make it so that if the player is in a specific range of a turret the turret will start firing the projectiles at the player
+      5. make a range for the turret
+      6. implement a elimination system for the player
 
 **Page layout and interface**
 
