@@ -84,14 +84,35 @@
       7. implement a elimination system for the player
 
 7. "Turrets" that are solid and shoot projectiles that harm the player if the player is hit by one and once the projectile make collision with something it disappears
+
       Steps:
       1. make an image for the turrets
-      2. give the projectiles damage hitboxes
-      3. make it so that if the projectile touches something it disappears
-      4. make it so that if the player is in a specific range of a turret the turret will start firing the projectiles at the player
-      5. make a range for the turret
-      6. implement a elimination system for the player
+      2. make an image for the projectile
+      3. give the projectiles damage hitboxes
+      4. make it so that if the projectile touches something it disappears
+      5. make it so that if the player is in a specific range of a turret the turret will start firing the projectiles at the player
+      6. make a range for the turret
+      7. give a speed for the firing rate
+      8. give a speed for the projectile
+      9. have the projectiles shoot at nearly all angles
+      10. implement a elimination system for the player
 
 **Page layout and interface**
 
-1. Saveing levels 
+1. Saveing levels
+
+   Steps:
+   1. sync the saveing mechanic to the checkpoints (make it so that when the player gets a checkpoint it saves there at the same time the player touches the checkpoint)
+   2. make it so that the game has local saveing (if you restart the game it will get rid of saves but if you close the game your saves will be stored)
+
+2. Menu
+
+   Steps:
+   1. make a background for the menu
+   2. 
+   
+
+
+
+
+
