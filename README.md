@@ -49,31 +49,31 @@
 2. Platforms/walls are solid and can be touched by Player if the User controls the player to do so, but the platforms/walls do not do anything else
       
       Steps:
-      1. 
-      2. 
-      3. 
-
+      1. make an image for the solid
+      2. give the solid a non-damage hitbox
 
 4. Solids that eliminate the Player if the User controls the Player into the solid
 
       Steps:
-      1. 
-      2. 
-      3. 
+      1. make an image for the solid
+      2. give the solid a damge hitbox
+      3. implement a damge system
 
 5. Tiles that are not solid but act like checkpoints when the User controls the Player to touch them
 
       Steps: 
-      1. 
-      2. 
-      3. 
+      1. make an image for the solid
+      2. make a respawn system
+      3. make it so that the tile is the place where the avatar will respawn at
 
 6. Enemies that are solid and hurt the Player when the User moves the player into the Enemy
 
       Steps:
-      1. 
-      2. 
-      3. 
+      1. make an image for the enemies
+      2. make it so that the enemies move
+      3. assign a speed the enemies
+      4. give a damge hitbox to the enemies
+      5. implement a damage system (This might need its own step)
 
 
 **Page layout and interface**
