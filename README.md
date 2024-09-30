@@ -3,7 +3,12 @@
 ## THIS WILL NOW SHOW UP
 
 ## Elements of 2d game stuff
-### 2D Game Movement Code Research
+### 2D Game "Code" Research
+
+**Player "Hitbox"**
+
+1. Make a image for the avatar
+2. Make a hitbox for the avatar
 
 **Player Movement Elements:**
 
@@ -45,7 +50,8 @@
       2. make a foreground
       3. make it so that the background and foreground don't move
       4. make it work on screen
-   
+   (Work in progress)
+
 2. Platforms/walls are solid and can be touched by Player if the User controls the player to do so, but the platforms/walls do not do anything else
       
       Steps:
@@ -56,8 +62,8 @@
 
       Steps:
       1. make an image for the solid
-      2. give the solid a damge hitbox
-      3. implement a damge system
+      2. give the solid a damage hitbox
+      3. implement a elimination system (This might need its own step)
 
 5. Tiles that are not solid but act like checkpoints when the User controls the Player to touch them
 
@@ -72,8 +78,8 @@
       1. make an image for the enemies
       2. make it so that the enemies move
       3. assign a speed the enemies
-      4. give a damge hitbox to the enemies
-      5. implement a damage system (This might need its own step)
+      4. give a damage hitbox to the enemies
+      5. implement a elimination system
 
 
 **Page layout and interface**
