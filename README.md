@@ -50,7 +50,7 @@
       2. make a foreground
       3. make it so that the background and foreground don't move
       4. make it work on screen
-   (Work in progress)
+   (This step is a work in progress)
 
 2. Platforms/walls are solid and can be touched by Player if the User controls the player to do so, but the platforms/walls do not do anything else
       
