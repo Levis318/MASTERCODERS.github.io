@@ -7,8 +7,8 @@
 
 **Player "Hitbox"**
 
-1. Make a image for the avatar
-2. Make a hitbox for the avatar
+1. Make a image for the Player/avatar
+2. Make a damge hitbox for the Player/avatar
 
 **Player Movement Elements:**
 
