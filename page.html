@@ -84,7 +84,7 @@
     }
 
   class Player {
-    construtor() {
+    constructor() {
       // This is where we will add the init states
 
       this.lives = 20.0;
@@ -329,7 +329,6 @@
     }
   }
 
-
   class Turret {
     constructor(x, y){
 
@@ -340,14 +339,31 @@
       this.height = 60;
 
     }
-    attack(Map){
-      let E_projectile = Enemy_Projectile(this.x_pos, this.y_pos);
-      E_projectile.shoot(Map, P);
+    attack(map){
+      let E_projectile = new Enemy_Projectile(this.x_pos, this.y_pos);
+      E_projectile.shoot(map, P);
     }
 
   }
 
+  class Obstacle{
+    constructor(x, y){
 
+      this.color = "black";
+      this.width = 100.0;
+      this.height = 100.0;
+    }
+  }
+
+  class Blank{
+    constructor(x, y){
+
+      this.color = "white";
+      this.width = 100.0;
+      this.height = 100.0;
+
+    }
+  }
 
   //---------------------------------------------------------------------------------------------------
   var canvas = document.getElementById('game');
