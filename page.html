@@ -59,13 +59,13 @@
       this.damage = 1.0;
     }
 
-    shoot(Map, direction){
+    shoot(map, direction){
       let distance = 5;  // to shoot a finite distance
       // for(let i = 0; i < distance; i++){
 
         // Or
 
-        while(Map[this.x_pos()][this.y_pos()] === "blank"){  // to shoot an infinite distance
+        while(map[this.x_pos()][this.y_pos()] === "blank"){  // to shoot an infinite distance
           switch(direction){
             case "right":
               this.x_pos += this.x_speed;
@@ -74,7 +74,7 @@
               this.x_pos -= this.x_speed;
               break;
           }
-          if(Map[this.x_pos()][this.y_pos()] === "enemy"){
+          if(map[this.x_pos()][this.y_pos()] === "enemy"){
             // how to do damage to enemy here
 
             break;
@@ -113,7 +113,7 @@
       this.lives = new_lives;
     }
 
-    move(Map, direction) {
+    async move(map, direction) {  // may need to be asyn
       switch (direction) {  //switch statement checks for different values
         case "up":
           if (this.y_speed < this.max_y_speed) {
@@ -140,12 +140,12 @@
           console.log("invalid input…");
 
       }
-      if (Map[this.x_pos + this.x_speed][this.y_pos + this.y_speed] === "blank")
+      if (map[this.x_pos + this.x_speed][this.y_pos + this.y_speed] === "blank")
       {
         this.x_previous_pos = this.x_pos;
         this.x_pos += this.x_speed;
       }
-      sleep(1000);  // pauses the code execution for 1 sec
+      await sleep(1000);  // pauses the code execution for 1 sec
     }
 
     get_direction() {
@@ -159,13 +159,193 @@
       return direction;
     }
 
-    attack(Map) {
+    attack(map) {
       let projectile = new Player_projectile(this.x_pos, this.y_pos);
-      projectile.shoot(Map, this.get_direction());
+      projectile.shoot(map, this.get_direction());
+    }
+  }
+
+  class MadHat {  // deals damage if we run into it
+    constructor(x, y) {
+
+      this.x_pos = x;
+      this.y_pos = y;
+      this.lives = 3.0;
+      this.x_speed = 1;
+      this.height = 50;
+      this.width = 50;
+      this.color = "red";
+      this.damage = 3.0;
+    }
+
+    async move_MadHat(distance){
+      while(this.lives >= 0.0){
+        for(let i = 0; i < distance; i++){
+          this.x_pos += this.x_speed;
+          await sleep(1000);
+        }
+        for(let i = 0; i < distance; i++){
+          this.x_pos -= this.x_speed;
+          await sleep(1000);
+        }
+      }
+    }
+
+    get_damage(){
+      return this.damage();
+    }
+  }
+
+  class Speedy {
+    constructor (x, y) {
+      this.x_pos = x;
+      this.y_pos = y;
+      this.x_speed = 10.0;
+      this.width = 50;
+      this.height = 70;
+      this.damage = 3.0;
+      this.lives = 15.0;
+      this.color = "yellow";
+    }
+
+    async move_Speedy(distance){
+      while(this.lives >= 0.0){
+        for(let i = 0; i < distance; i++){
+          this.x_pos += this.x_speed;
+          await sleep(1000);
+        }
+        for(let i = 0; i < distance; i++){
+          this.x_pos -= this.x_speed;
+          await sleep(1000);
+        }
+      }
+    }
+
+    get_damage(){
+      return this.damage();
+    }
+  }
+
+  class Big_Boy {
+    constructor(x, y){
+
+      this.x_pos = x;
+      this.y_pos = y;
+      this.x_speed = 2.0;
+      this.width = 85;
+      this.height = 85;
+      this.damage = 4.0;
+      this.lives = 30.0;
+      this.color = "orange";
+  }
+
+  async move_Big_Boy(distance){
+    while(this.lives >= 0.0){
+      for(let i = 0; i < distance; i++){
+        this.x_pos += this.x_speed;
+        await sleep(1000);
+      }
+      for(let i = 0; i < distance; i++){
+        this.x_pos -= this.x_speed;
+        await sleep(1000);
+      }
+    }
+  }
+
+  get_damage(){
+    return this.damage();
+  }
+  }
+
+  class Boss_Boss {
+  constructor(x, y){
+
+    this.x_pos = x;
+    this.y_pos = y;
+    this.x_speed = 6.0;
+    this.width = 50;
+    this.height = 50;
+    this.damage = 5.0;
+    this.lives = 50.0;
+    this.color = "black";
+  }
+
+  async move_Boss_Boss(distance){
+    while(this.lives >= 0.0){
+      for(let i = 0; i < distance; i++){
+        this.x_pos += this.x_speed;
+        await sleep(1000);
+      }
+      for(let i = 0; i < distance; i++){
+        this.x_pos -= this.x_speed;
+        await sleep(1000);
+      }
+    }
+  }
+
+  get_damage(){
+    return this.damage();
+  }
+  }
+
+  class Enemy_Projectile {
+    constructor(x, y) {
+
+      this.x_pos = x;
+      this.y_pos = y;
+      this.width = 25;
+      this.height = 50;
+      this.color = "purple";
+      this.x_speed = 5;
+      this.y_speed = 5;
+      this.damage = 20.0;
+    }
+      shoot(map, p){
+      while(map[this.x_pos()][this.y_pos()] === "blank"){
+        let x_angle = this.x_pos - p.x_pos;
+        let y_angle = this.y_pos - p.y_pos;
+
+        if(x_angle === 0){  // handling straight down
+          this.y_pos = Math.floor(this.y_pos + (this.y_speed / y_angle))
+          // y_pos = 3, y_angle = -2, y_speed = 1
+          // 3 + (1/-2) = (3 + (-0.5)) = 2.5 = 2
+        }
+        else if(y_angle === 0){  // handling straight across
+          this.x_pos = Math.floor(this.x_pos + (this.x_speed / x_angle))
+          // x_pos = 3, x_angle = -2, x_speed = 1
+          // 3 + (1/-2) …
+        }
+        else {
+          this.x_pos = Math.floor(this.x_pos + (this.x_speed / x_angle))
+          this.y_pos = Math.floor(this.y_pos + (this.y_speed / y_angle))
+
+        }
+
+        if(map[this.x_pos()][this.y_pos()] === "Player"){
+
+          break;
+        }
+      }
     }
   }
 
 
+  class Turret {
+    constructor(x, y){
+
+      this.x_pos = x;
+      this.y_pos = y;
+      this.color = "gray";
+      this.width = 60;
+      this.height = 60;
+
+    }
+    attack(Map){
+      let E_projectile = Enemy_Projectile(this.x_pos, this.y_pos);
+      E_projectile.shoot(Map, P);
+    }
+
+  }
 
 
 
