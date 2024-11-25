@@ -375,7 +375,7 @@
   var count = 0;
 
   var snake = {
-    x: 160,
+    x: 160,  // pos 10, 10
     y: 160,
 
     // snake velocity. moves one grid length every frame in either the x or y direction
@@ -389,7 +389,7 @@
     maxCells: 4
   };
   var apple = {
-    x: 320,
+    x: 320,  // this is in pos 20, 20
     y: 320
   };
 
@@ -451,30 +451,30 @@
       context.fillRect(cell.x, cell.y, grid-1, grid-1);
 
       // snake ate apple
-      if (cell.x === apple.x && cell.y === apple.y) {
-        snake.maxCells++;
-
-        // canvas is 400x400 which is 25x25 grids
-        apple.x = getRandomInt(0, 25) * grid;
-        apple.y = getRandomInt(0, 25) * grid;
-      }
+      // if (cell.x === apple.x && cell.y === apple.y) {
+      //   snake.maxCells++;
+      //
+      //   // canvas is 400x400 which is 25x25 grids
+      //   apple.x = getRandomInt(0, 25) * grid;
+      //   apple.y = getRandomInt(0, 25) * grid;
+      // }
 
       // check collision with all cells after this one (modified bubble sort)
-      for (var i = index + 1; i < snake.cells.length; i++) {
-
-        // snake occupies same space as a body part. reset game
-        if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
-          snake.x = 160;
-          snake.y = 160;
-          snake.cells = [];
-          snake.maxCells = 4;
-          snake.dx = grid;
-          snake.dy = 0;
-
-          apple.x = getRandomInt(0, 25) * grid;
-          apple.y = getRandomInt(0, 25) * grid;
-        }
-      }
+      // for (var i = index + 1; i < snake.cells.length; i++) {
+      //
+      //   // snake occupies same space as a body part. reset game
+      //   if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+      //     snake.x = 160;
+      //     snake.y = 160;
+      //     snake.cells = [];
+      //     snake.maxCells = 4;
+      //     snake.dx = grid;
+      //     snake.dy = 0;
+      //
+      //     apple.x = getRandomInt(0, 25) * grid;
+      //     apple.y = getRandomInt(0, 25) * grid;
+      //   }
+      // }
     });
   }
 
@@ -486,22 +486,22 @@
     // shouldn't let you collide with your own body)
 
     // left arrow key
-    if (e.which === 37 && snake.dx === 0) {
+    if (e.which === 37) {  // && snake.dx === 0
       snake.dx = -grid;
       snake.dy = 0;
     }
     // up arrow key
-    else if (e.which === 38 && snake.dy === 0) {
+    else if (e.which === 38 ) {  // && snake.dy === 0
       snake.dy = -grid;
       snake.dx = 0;
     }
     // right arrow key
-    else if (e.which === 39 && snake.dx === 0) {
+    else if (e.which === 39 ) {  // && snake.dx === 0
       snake.dx = grid;
       snake.dy = 0;
     }
     // down arrow key
-    else if (e.which === 40 && snake.dy === 0) {
+    else if (e.which === 40 ) {  // && snake.dy === 0
       snake.dy = grid;
       snake.dx = 0;
     }
