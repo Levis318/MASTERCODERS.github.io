@@ -4,20 +4,20 @@
   <title>Basic Snake HTML Game</title>
   <meta charset="UTF-8">
   <style>
-      html, body {
-          height: 100%;
-          margin: 0;
-      }
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
 
-      body {
-          background: black;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-      }
-      canvas {
-          border: 1px solid white;
-      }
+    body {
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    canvas {
+      border: 1px solid white;
+    }
   </style>
 </head>
 <body>
@@ -63,39 +63,39 @@
       let distance = 5;  // to shoot a finite distance
       // for(let i = 0; i < distance; i++){
 
-        // Or
+      // Or
 
-        while(map[this.x_pos()][this.y_pos()] === "blank"){  // to shoot an infinite distance
-          switch(direction){
-            case "right":
-              this.x_pos += this.x_speed;
-              break;
-            case "left":
-              this.x_pos -= this.x_speed;
-              break;
-          }
-          if(map[this.x_pos()][this.y_pos()] === "enemy"){
-            // how to do damage to enemy here
-
+      while(map[this.x_pos()][this.y_pos()] === "b"){  // to shoot an infinite distance
+        switch(direction){
+          case "right":
+            this.x_pos += this.x_speed;
             break;
-          }
+          case "left":
+            this.x_pos -= this.x_speed;
+            break;
+        }
+        if(map[this.x_pos()][this.y_pos()] === "enemy"){
+          // how to do damage to enemy here
+
+          break;
         }
       }
     }
+  }
 
   class Player {
     constructor() {
       // This is where we will add the init states
 
       this.lives = 20.0;
-      this.y_pos = 0;  // initial spawn point, later actual pos
+      this.y_pos = 320;  // initial spawn point, later actual pos
       this.x_pos = 0;
-      this.x_previous_pos = 0;
+      this.x_previous_pos = 320;
       this.y_previous_pos = 0;
-      this.max_y_speed = 5;
-      this.max_x_speed = 5;
-      this.min_y_speed = -5;
-      this.min_x_speed = -5;
+      this.max_y_speed = 5 * grid;
+      this.max_x_speed = 5 * grid;
+      this.min_y_speed = -5 * grid;
+      this.min_x_speed = -5 * grid;
       this.y_speed = 0;
       this.x_speed = 0;
       this.y_respawn_point = 0;
@@ -103,6 +103,9 @@
       this.height = 50;
       this.width = 50;
       this.color = "blue";
+
+      context.fillStyle = this.color;
+      context.fillRect(this.x_pos, this.y_pos, grid-1, grid-1);
     }
 
     get_lives() {
@@ -111,41 +114,6 @@
 
     set_lives(new_lives) {
       this.lives = new_lives;
-    }
-
-    async move(map, direction) {  // may need to be asyn
-      switch (direction) {  //switch statement checks for different values
-        case "up":
-          if (this.y_speed < this.max_y_speed) {
-            this.y_speed += 1;
-          }
-          break;
-
-        case "down":
-          break;
-
-        case "left":
-          if (this.x_speed < this.min_x_speed) {
-            this.x_speed -= 1;
-          }
-          break;
-
-        case "right":
-          if (this.x_speed < this.min_x_speed) {
-            this.x_speed += 1;
-          }
-          break;
-
-        default:
-          console.log("invalid input…");
-
-      }
-      if (map[this.x_pos + this.x_speed][this.y_pos + this.y_speed] === "blank")
-      {
-        this.x_previous_pos = this.x_pos;
-        this.x_pos += this.x_speed;
-      }
-      await sleep(1000);  // pauses the code execution for 1 sec
     }
 
     get_direction() {
@@ -178,7 +146,7 @@
       this.damage = 3.0;
     }
 
-    async move_MadHat(distance){
+    async move(distance){
       while(this.lives >= 0.0){
         for(let i = 0; i < distance; i++){
           this.x_pos += this.x_speed;
@@ -237,55 +205,55 @@
       this.damage = 4.0;
       this.lives = 30.0;
       this.color = "orange";
-  }
+    }
 
-  async move_Big_Boy(distance){
-    while(this.lives >= 0.0){
-      for(let i = 0; i < distance; i++){
-        this.x_pos += this.x_speed;
-        await sleep(1000);
-      }
-      for(let i = 0; i < distance; i++){
-        this.x_pos -= this.x_speed;
-        await sleep(1000);
+    async move_Big_Boy(distance){
+      while(this.lives >= 0.0){
+        for(let i = 0; i < distance; i++){
+          this.x_pos += this.x_speed;
+          await sleep(1000);
+        }
+        for(let i = 0; i < distance; i++){
+          this.x_pos -= this.x_speed;
+          await sleep(1000);
+        }
       }
     }
-  }
 
-  get_damage(){
-    return this.damage();
-  }
+    get_damage(){
+      return this.damage();
+    }
   }
 
   class Boss_Boss {
-  constructor(x, y){
+    constructor(x, y){
 
-    this.x_pos = x;
-    this.y_pos = y;
-    this.x_speed = 6.0;
-    this.width = 50;
-    this.height = 50;
-    this.damage = 5.0;
-    this.lives = 50.0;
-    this.color = "black";
-  }
+      this.x_pos = x;
+      this.y_pos = y;
+      this.x_speed = 6.0;
+      this.width = 50;
+      this.height = 50;
+      this.damage = 5.0;
+      this.lives = 50.0;
+      this.color = "black";
+    }
 
-  async move_Boss_Boss(distance){
-    while(this.lives >= 0.0){
-      for(let i = 0; i < distance; i++){
-        this.x_pos += this.x_speed;
-        await sleep(1000);
-      }
-      for(let i = 0; i < distance; i++){
-        this.x_pos -= this.x_speed;
-        await sleep(1000);
+    async move_Boss_Boss(distance){
+      while(this.lives >= 0.0){
+        for(let i = 0; i < distance; i++){
+          this.x_pos += this.x_speed;
+          await sleep(1000);
+        }
+        for(let i = 0; i < distance; i++){
+          this.x_pos -= this.x_speed;
+          await sleep(1000);
+        }
       }
     }
-  }
 
-  get_damage(){
-    return this.damage();
-  }
+    get_damage(){
+      return this.damage();
+    }
   }
 
   class Enemy_Projectile {
@@ -300,8 +268,8 @@
       this.y_speed = 5;
       this.damage = 20.0;
     }
-      shoot(map, p){
-      while(map[this.x_pos()][this.y_pos()] === "blank"){
+    shoot(map, p){
+      while(map[this.x_pos()][this.y_pos()] === "b"){
         let x_angle = this.x_pos - p.x_pos;
         let y_angle = this.y_pos - p.y_pos;
 
@@ -346,7 +314,7 @@
 
   }
 
-  class Obstacle{
+  class o{
     constructor(x, y){
 
       this.color = "black";
@@ -355,7 +323,7 @@
     }
   }
 
-  class Blank{
+  class b{
     constructor(x, y){
 
       this.color = "white";
@@ -368,6 +336,9 @@
   //---------------------------------------------------------------------------------------------------
   var canvas = document.getElementById('game');
   var context = canvas.getContext('2d');
+
+
+  p = new Player();
 
   // the canvas width & height, snake x & y, and the apple x & y, all need to be a multiples of the grid size in order for collision detection to work
   // (e.g. 16 * 25 = 400)
@@ -388,10 +359,6 @@
     // length of the snake. grows when eating an apple
     maxCells: 4
   };
-  var apple = {
-    x: 320,  // this is in pos 20, 20
-    y: 320
-  };
 
   // get random whole numbers in a specific range
   // @see https://stackoverflow.com/a/1527820/2124254
@@ -403,6 +370,35 @@
   function loop() {
     requestAnimationFrame(loop);
 
+    // enemies = [new MadHat(1,1), new Speedy(2,2)]
+    map = [["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "1", "1", "1", "b", "1", "1", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+          ]
+
+
     // slow game loop to 15 fps instead of 60 (60/15 = 4)
     if (++count < 4) {
       return;
@@ -411,71 +407,115 @@
     count = 0;
     context.clearRect(0,0,canvas.width,canvas.height);
 
-    // move snake by it's velocity
-    snake.x += snake.dx;
-    snake.y += snake.dy;
-
-    // wrap snake position horizontally on edge of screen
-    if (snake.x < 0) {
-      snake.x = canvas.width - grid;
-    }
-    else if (snake.x >= canvas.width) {
-      snake.x = 0;
-    }
-
-    // wrap snake position vertically on edge of screen
-    if (snake.y < 0) {
-      snake.y = canvas.height - grid;
-    }
-    else if (snake.y >= canvas.height) {
-      snake.y = 0;
+    for(let x = 0; x < 25; x++){
+      for(let y = 0; y < 25; y++) {
+        obj = map[y][x];
+        if (obj === "1") {
+          context.fillStyle = "white";
+          context.fillRect(x * grid, y * grid, grid - 1, grid - 1);
+        } else if (obj === "2") {
+          context.fillStyle = "darkgreen";
+          context.fillRect(x * grid, y * grid, grid - 1, grid - 1);
+        }
+      }
     }
 
-    // keep track of where snake has been. front of the array is always the head
-    snake.cells.unshift({x: snake.x, y: snake.y});
+    // for(let e = 0; e < length(enemies); e++){
+    //   enemies[e].move();
+    // }
 
-    // remove cells as we move away from them
-    if (snake.cells.length > snake.maxCells) {
-      snake.cells.pop();
+
+
+
+    // move snake by its velocity
+   // snake.x += snake.dx;
+   // snake.y += snake.dy;
+
+    // keep player position horizontally on edge of screen
+    if (p.x_pos < 0) {
+      p.x_pos += grid;
     }
+    else if (p.x_pos >= canvas.width) {
+      p.x_pos -= grid;
+    }
+
+    // keep player position vertically on edge of screen
+    if (p.y_pos < 0) {
+      p.y_pos += grid;
+    }
+    else if (p.y_pos >= canvas.height) {
+      p.y_pos -= grid;
+    }
+
+    if((p.y_pos + grid) === canvas.height || map[(p.y_pos / grid) - 1][p.x_pos / grid] === "b") {  // gravity
+      //console.log(map[(p.y_pos / grid) + 1][p.x_pos / grid], (p.y_pos + grid) === canvas.height)
+      console.log("we are in if")
+      p.y_pos += grid;
+    }
+
+    else if(map[p.y_pos / grid][p.x_pos / grid] === "1") {  // no passing through objects
+      p.x_pos = p.x_previous_pos;
+      p.y_pos = p.y_previous_pos;
+    }
+
+    else if(map[p.y_pos / grid][p.x_pos / grid] === "2") {  // checkpoint
+      p.x_respawn_point = p.x_pos;
+      p.y_respawn_point = p.y_pos;
+    }
+    else {
+      console.log("we are in else")
+
+      p.x_pos = 320;
+      p.y_pos = 320;
+    }
+
+    // // keep track of where snake has been. front of the array is always the head
+    // snake.cells.unshift({x: snake.x, y: snake.y});
+    //
+    // // remove cells as we move away from them
+    // if (snake.cells.length > snake.maxCells) {
+    //   snake.cells.pop();
+    // }
 
     // draw apple
-    context.fillStyle = 'red';
-    context.fillRect(apple.x, apple.y, grid-1, grid-1);
+    // context.fillStyle = 'red';
+    // context.fillRect(apple.x, apple.y, grid-1, grid-1);
+    context.fillStyle = "blue";
+    context.fillRect(p.x_pos, p.y_pos, grid-1, grid-1);
 
     // draw snake one cell at a time
-    context.fillStyle = 'green';
-    snake.cells.forEach(function(cell, index) {
+    // context.fillStyle = "black";
+    // snake.cells.forEach(function(cell, index) {
 
-      // drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
-      context.fillRect(cell.x, cell.y, grid-1, grid-1);
-
-      // snake ate apple
-      // if (cell.x === apple.x && cell.y === apple.y) {
-      //   snake.maxCells++;
-      //
-      //   // canvas is 400x400 which is 25x25 grids
-      //   apple.x = getRandomInt(0, 25) * grid;
-      //   apple.y = getRandomInt(0, 25) * grid;
-      // }
-
-      // check collision with all cells after this one (modified bubble sort)
-      // for (var i = index + 1; i < snake.cells.length; i++) {
-      //
-      //   // snake occupies same space as a body part. reset game
-      //   if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
-      //     snake.x = 160;
-      //     snake.y = 160;
-      //     snake.cells = [];
-      //     snake.maxCells = 4;
-      //     snake.dx = grid;
-      //     snake.dy = 0;
-      //
-      //     apple.x = getRandomInt(0, 25) * grid;
-      //     apple.y = getRandomInt(0, 25) * grid;
-      //   }
-      // }
-    });
+    //   // drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
+    //   context.fillRect(cell.x, cell.y, grid-1, grid-1);
+    //
+    //   // snake ate apple
+    //   // if (cell.x === apple.x && cell.y === apple.y) {
+    //   //   snake.maxCells++;
+    //   //
+    //   //   // canvas is 400x400 which is 25x25 grids
+    //   //   apple.x = getRandomInt(0, 25) * grid;
+    //   //   apple.y = getRandomInt(0, 25) * grid;
+    //   // }
+    //
+    //   // check collision with all cells after this one (modified bubble sort)
+    //   // for (var i = index + 1; i < snake.cells.length; i++) {
+    //   //
+    //   //   // snake occupies same space as a body part. reset game
+    //   //   if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+    //   //     snake.x = 160;
+    //   //     snake.y = 160;
+    //   //     snake.cells = [];
+    //   //     snake.maxCells = 4;
+    //   //     snake.dx = grid;
+    //   //     snake.dy = 0;
+    //   //
+    //   //     apple.x = getRandomInt(0, 25) * grid;
+    //   //     apple.y = getRandomInt(0, 25) * grid;
+    //   //   }
+    //   // }
+    // });
   }
 
   // listen to keyboard events to move the snake
@@ -487,23 +527,28 @@
 
     // left arrow key
     if (e.which === 37) {  // && snake.dx === 0
-      snake.dx = -grid;
-      snake.dy = 0;
+      p.x_previous_pos = p.x_pos;
+      p.y_previous_pos = p.y_pos;
+      p.x_pos += -grid;
     }
     // up arrow key
     else if (e.which === 38 ) {  // && snake.dy === 0
-      snake.dy = -grid;
-      snake.dx = 0;
+      p.x_previous_pos = p.x_pos;
+      p.y_previous_pos = p.y_pos;
+      p.y_pos += -grid;
     }
     // right arrow key
     else if (e.which === 39 ) {  // && snake.dx === 0
-      snake.dx = grid;
-      snake.dy = 0;
+      p.x_previous_pos = p.x_pos;
+      p.y_previous_pos = p.y_pos;
+      p.x_pos += grid;
     }
     // down arrow key
     else if (e.which === 40 ) {  // && snake.dy === 0
-      snake.dy = grid;
-      snake.dx = 0;
+      p.x_previous_pos = p.x_pos;
+      p.y_previous_pos = p.y_pos;
+      p.y_pos += grid;
+
     }
   });
 
