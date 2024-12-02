@@ -4,20 +4,20 @@
   <title>Basic Snake HTML Game</title>
   <meta charset="UTF-8">
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
+      html, body {
+          height: 100%;
+          margin: 0;
+      }
 
-    body {
-      background: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    canvas {
-      border: 1px solid white;
-    }
+      body {
+          background: black;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+      canvas {
+          border: 1px solid white;
+      }
   </style>
 </head>
 <body>
@@ -90,8 +90,8 @@
       this.lives = 20.0;
       this.y_pos = 320;  // initial spawn point, later actual pos
       this.x_pos = 0;
-      this.x_previous_pos = 320;
-      this.y_previous_pos = 0;
+      this.x_previous_pos = 0;
+      this.y_previous_pos = 320;
       this.max_y_speed = 5 * grid;
       this.max_x_speed = 5 * grid;
       this.min_y_speed = -5 * grid;
@@ -144,17 +144,23 @@
       this.width = 50;
       this.color = "red";
       this.damage = 3.0;
+      this.distance_count = 0;
+      this.direction = 1;
+
+      context.fillStyle = this.color;
+      context.fillRect(this.x_pos, this.y_pos, grid-1, grid-1);
     }
 
-    async move(distance){
+    move(){
       while(this.lives >= 0.0){
-        for(let i = 0; i < distance; i++){
-          this.x_pos += this.x_speed;
-          await sleep(1000);
+        if(this.direction === 1 && map[(this.y_pos / grid) + 1][(this.x_pos / grid) + 1] === "1"){
+          this.x_pos += this.x_speed * grid;
         }
-        for(let i = 0; i < distance; i++){
-          this.x_pos -= this.x_speed;
-          await sleep(1000);
+        else if(this.direction === -1 && map[(this.y_pos / grid) + 1][(this.x_pos / grid) - 1] === "1"){
+          this.x_pos -= this.x_speed * grid;
+        }
+        else{
+          this.direction = this.direction * -1;
         }
       }
     }
@@ -344,21 +350,7 @@
   // (e.g. 16 * 25 = 400)
   var grid = 16;
   var count = 0;
-
-  var snake = {
-    x: 160,  // pos 10, 10
-    y: 160,
-
-    // snake velocity. moves one grid length every frame in either the x or y direction
-    dx: grid,
-    dy: 0,
-
-    // keep track of all grids the snake body occupies
-    cells: [],
-
-    // length of the snake. grows when eating an apple
-    maxCells: 4
-  };
+  var jumping = false;
 
   // get random whole numbers in a specific range
   // @see https://stackoverflow.com/a/1527820/2124254
@@ -366,37 +358,38 @@
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
+  enemies = [new MadHat(15*grid,4*grid)]
+
   // game loop
   function loop() {
     requestAnimationFrame(loop);
 
-    // enemies = [new MadHat(1,1), new Speedy(2,2)]
     map = [["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "1", "1", "1", "b", "1", "1", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-          ]
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "1", "1", "1", "b", "1", "1", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+      ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+    ]
 
 
     // slow game loop to 15 fps instead of 60 (60/15 = 4)
@@ -420,16 +413,18 @@
       }
     }
 
-    // for(let e = 0; e < length(enemies); e++){
-    //   enemies[e].move();
-    // }
+    for(let e = 0; e < enemies.length; e++){
+      context.fillStyle = enemies[e].color;
+      context.fillRect(enemies[e].x_pos, enemies[e].y_pos, grid - 1, grid - 1);
+      //enemies[e].move();
+    }
 
 
 
 
     // move snake by its velocity
-   // snake.x += snake.dx;
-   // snake.y += snake.dy;
+    // snake.x += snake.dx;
+    // snake.y += snake.dy;
 
     // keep player position horizontally on edge of screen
     if (p.x_pos < 0) {
@@ -447,27 +442,55 @@
       p.y_pos -= grid;
     }
 
-    if((p.y_pos + grid) === canvas.height || map[(p.y_pos / grid) - 1][p.x_pos / grid] === "b") {  // gravity
-      //console.log(map[(p.y_pos / grid) + 1][p.x_pos / grid], (p.y_pos + grid) === canvas.height)
-      console.log("we are in if")
-      p.y_pos += grid;
-    }
-
-    else if(map[p.y_pos / grid][p.x_pos / grid] === "1") {  // no passing through objects
+    if(map[p.y_pos / grid][p.x_pos / grid] === "1") {  // no passing through objects, need to not be able to come from under
+      console.log("we are in no phasing")
       p.x_pos = p.x_previous_pos;
+      // p.y_pos -= grid;
       p.y_pos = p.y_previous_pos;
+      jumping = false;
     }
-
     else if(map[p.y_pos / grid][p.x_pos / grid] === "2") {  // checkpoint
+      console.log("we are in checkpoint")
       p.x_respawn_point = p.x_pos;
       p.y_respawn_point = p.y_pos;
+      jumping = false;
     }
     else {
       console.log("we are in else")
 
-      p.x_pos = 320;
-      p.y_pos = 320;
+      //p.x_pos = 320;
+      //p.y_pos = 320;
+
+     if((p.y_pos + grid) === canvas.height){
+        console.log((p.y_pos + grid) === canvas.height)
+        // p.x_pos = p.x_previous_pos + grid;
+        p.y_pos = p.y_pos - grid;
+      }
+      else if(map[(p.y_pos / grid) + 1][(p.x_pos / grid)] === "b" || map[(p.y_pos / grid) + 1][(p.x_pos / grid)] === "2") {  // gravity  (p.y_pos + grid) === canvas.height ||
+        //console.log(map[(p.y_pos / grid) + 1][p.x_pos / grid], (p.y_pos + grid) === canvas.height)
+        console.log("we are in y + 1")
+        p.y_pos += grid;
+      }
+      else{
+        //console.log("sitting");
+       jumping = false;
+     }
+
+      // else if(map[(p.y_pos / grid) - 1][(p.x_pos / grid)] === "b"){
+      //   console.log("we are in y - 1")
+      //   p.y_pos += grid;
+      // }
+      // else if(map[(p.y_pos / grid)][(p.x_pos / grid) + 1] === "b"){
+      //   console.log("we are in x + 1")
+      //   p.y_pos += grid;
+      // }
+      // else if(map[(p.y_pos / grid) - 1][(p.x_pos / grid)] === "b"){
+      //   console.log("we are in x - 1")
+      //   p.y_pos += grid;
+      // }
     }
+
+
 
     // // keep track of where snake has been. front of the array is always the head
     // snake.cells.unshift({x: snake.x, y: snake.y});
@@ -519,6 +542,27 @@
   }
 
   // listen to keyboard events to move the snake
+  let isKeyDown = false;
+
+  document.addEventListener('keydown', (event) => {
+    if (!isKeyDown) {
+      if (event.key === 'Enter') { // Replace 'Enter' with the desired key
+        // Code to execute when the key is pressed
+        console.log('Key pressed and held down');
+        isKeyDown = true;
+      }
+    }
+  });
+
+  document.addEventListener('keyup', (event) => {
+    if (event.key === 'Enter') { // Replace 'Enter' with the desired key
+      // Code to execute when the key is released
+      console.log('Key released');
+      isKeyDown = false;
+    }
+  });
+
+
   document.addEventListener('keydown', function(e) {
     // prevent snake from backtracking on itself by checking that it's
     // not already moving on the same axis (pressing left while moving
@@ -532,10 +576,11 @@
       p.x_pos += -grid;
     }
     // up arrow key
-    else if (e.which === 38 ) {  // && snake.dy === 0
+    else if (e.which === 38 && !jumping) {  // && snake.dy === 0
       p.x_previous_pos = p.x_pos;
       p.y_previous_pos = p.y_pos;
-      p.y_pos += -grid;
+      p.y_pos += -grid * 4;
+      jumping = true;
     }
     // right arrow key
     else if (e.which === 39 ) {  // && snake.dx === 0
