@@ -422,8 +422,15 @@
         context.fillStyle = enemies[e].color;
         context.fillRect(enemies[e].x_pos, enemies[e].y_pos, grid - 1, grid - 1);
         // enemies[e].move();
-
-        if(enemies[e].direction === 1 && map[(enemies[e].y_pos / grid) + 1][(enemies[e].x_pos / grid) + 1] === "1"){
+        if (map[(enemies[e].y_pos / grid)][(enemies[e].x_pos / grid) + 1] === "1"){
+          enemies[e].direction = enemies[e].direction * -1;
+          enemies[e].x_pos -= enemies[e].x_speed * grid;
+        }
+        else if (map[(enemies[e].y_pos / grid)][(enemies[e].x_pos / grid) - 1] === "1"){
+          enemies[e].direction = enemies[e].direction * -1;
+          enemies[e].x_pos += enemies[e].x_speed * grid;
+        }
+        else if(enemies[e].direction === 1 && map[(enemies[e].y_pos / grid) + 1][(enemies[e].x_pos / grid) + 1] === "1"){
           enemies[e].x_pos += enemies[e].x_speed * grid;
         }
         else if(enemies[e].direction === -1 && map[(enemies[e].y_pos / grid) + 1][(enemies[e].x_pos / grid) - 1] === "1"){
