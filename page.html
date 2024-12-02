@@ -1,24 +1,23 @@
-
 <!DOCTYPE html>
 <html>
 <head>
   <title>Basic Snake HTML Game</title>
   <meta charset="UTF-8">
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
+      html, body {
+          height: 100%;
+          margin: 0;
+      }
 
-    body {
-      background: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    canvas {
-      border: 1px solid white;
-    }
+      body {
+          background: black;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+      canvas {
+          border: 1px solid white;
+      }
   </style>
 </head>
 <body>
@@ -53,10 +52,10 @@
 
       this.x_pos = x;
       this.y_pos = y;
-      this.width = 50;
-      this.height = 50;
+      this.width = grid;
+      this.height = grid;
       this.color = "green";
-      this.x_speed = 5;
+      this.x_speed = grid;
       this.damage = 1.0;
     }
 
@@ -66,7 +65,7 @@
 
       // Or
 
-      while(map[this.x_pos()][this.y_pos()] === "b"){  // to shoot an infinite distance
+      while(map[this.y_pos / grid][this.x_pos / grid] === "b"){  // to shoot an infinite distance
         switch(direction){
           case "right":
             this.x_pos += this.x_speed;
@@ -75,11 +74,13 @@
             this.x_pos -= this.x_speed;
             break;
         }
-        if(map[this.x_pos()][this.y_pos()] === "enemy"){
+        if(map[this.y_pos / grid][this.x_pos / grid] === "enemy"){
           // how to do damage to enemy here
 
           break;
         }
+        context.fillStyle = this.color;
+        context.fillRect(this.x_pos, this.y_pos, grid - 10, grid - 10);
       }
     }
   }
@@ -359,7 +360,7 @@
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
-  enemies = [new MadHat(15*grid,4*grid)]
+  enemies = [new MadHat(15*grid,3*grid)]
 
   // game loop
   function loop() {
@@ -473,7 +474,7 @@
       //p.x_pos = 320;
       //p.y_pos = 320;
 
-      if((p.y_pos + grid) === canvas.height){
+     if((p.y_pos + grid) === canvas.height){
         console.log((p.y_pos + grid) === canvas.height)
         // p.x_pos = p.x_previous_pos + grid;
         p.y_pos = p.y_pos - grid;
@@ -485,8 +486,8 @@
       }
       else{
         //console.log("sitting");
-        jumping = false;
-      }
+       jumping = false;
+     }
 
       // else if(map[(p.y_pos / grid) - 1][(p.x_pos / grid)] === "b"){
       //   console.log("we are in y - 1")
@@ -605,7 +606,11 @@
       p.x_previous_pos = p.x_pos;
       p.y_previous_pos = p.y_pos;
       p.y_pos += grid;
-
+    }
+    else if (e.key === ' ') {
+      // Spacebar was pressed
+      console.log('Spacebar pressed!');
+      p.attack(map);
     }
   });
 
