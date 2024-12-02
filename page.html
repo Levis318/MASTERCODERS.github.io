@@ -59,7 +59,7 @@
       this.damage = 1.0;
     }
 
-    shoot(map, direction){
+    shoot(map, enemies, direction){
       let distance = 5;  // to shoot a finite distance
       // for(let i = 0; i < distance; i++){
 
@@ -74,10 +74,10 @@
             this.x_pos -= this.x_speed;
             break;
         }
-        if(map[this.y_pos / grid][this.x_pos / grid] === "enemy"){
-          // how to do damage to enemy here
-
-          break;
+        for(let e = 0; e < enemies.length; e++){
+          if(enemies[e].x_pos === this.x_pos && enemies[e].y_pos === this.y_pos){
+            enemies[e].lives -= this.damage;
+          }
         }
         context.fillStyle = this.color;
         context.fillRect(this.x_pos, this.y_pos, grid - 10, grid - 10);
@@ -129,9 +129,9 @@
       return direction;
     }
 
-    attack(map) {
+    attack(map, enemies) {
       let projectile = new Player_projectile(this.x_pos, this.y_pos);
-      projectile.shoot(map, this.get_direction());
+      projectile.shoot(map, enemies, this.get_direction());
     }
   }
 
@@ -207,12 +207,13 @@
 
       this.x_pos = x;
       this.y_pos = y;
-      this.x_speed = 2.0;
+      this.x_speed = 1;
       this.width = 85;
       this.height = 85;
       this.damage = 4.0;
-      this.lives = 30.0;
+      this.lives = 1;
       this.color = "orange";
+      this.direction = 1;
     }
 
     async move_Big_Boy(distance){
@@ -359,8 +360,8 @@
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
-
-  enemies = [new MadHat(15*grid,3*grid), new MadHat (11*grid,20*grid)]
+  // x, y
+  enemies = [new MadHat(15*grid,3*grid), new MadHat (11*grid,20*grid), new Big_Boy(15*grid,23*grid)]
 
   // game loop
   function loop() {
@@ -416,10 +417,11 @@
     }
 
     for(let e = 0; e < enemies.length; e++){
-      context.fillStyle = enemies[e].color;
-      context.fillRect(enemies[e].x_pos, enemies[e].y_pos, grid - 1, grid - 1);
-      // enemies[e].move();
       if(enemies[e].lives >= 0.0){
+        context.fillStyle = enemies[e].color;
+        context.fillRect(enemies[e].x_pos, enemies[e].y_pos, grid - 1, grid - 1);
+        // enemies[e].move();
+
         if(enemies[e].direction === 1 && map[(enemies[e].y_pos / grid) + 1][(enemies[e].x_pos / grid) + 1] === "1"){
           enemies[e].x_pos += enemies[e].x_speed * grid;
         }
@@ -610,7 +612,7 @@
     else if (e.key === ' ') {
       // Spacebar was pressed
       console.log('Spacebar pressed!');
-      p.attack(map);
+      p.attack(map, enemies);
     }
   });
 
