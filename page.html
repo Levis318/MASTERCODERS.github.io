@@ -393,7 +393,7 @@
 
 
     // slow game loop to 15 fps instead of 60 (60/15 = 4)
-    if (++count < 4) {
+    if (++count < 6) {
       return;
     }
 
@@ -416,7 +416,18 @@
     for(let e = 0; e < enemies.length; e++){
       context.fillStyle = enemies[e].color;
       context.fillRect(enemies[e].x_pos, enemies[e].y_pos, grid - 1, grid - 1);
-      //enemies[e].move();
+      // enemies[e].move();
+      if(enemies[e].lives >= 0.0){
+        if(enemies[e].direction === 1 && map[(enemies[e].y_pos / grid) + 1][(enemies[e].x_pos / grid) + 1] === "1"){
+          enemies[e].x_pos += enemies[e].x_speed * grid;
+        }
+        else if(enemies[e].direction === -1 && map[(enemies[e].y_pos / grid) + 1][(enemies[e].x_pos / grid) - 1] === "1"){
+          enemies[e].x_pos -= enemies[e].x_speed * grid;
+        }
+        else{
+          enemies[e].direction = enemies[e].direction * -1;
+        }
+      }
     }
 
 
