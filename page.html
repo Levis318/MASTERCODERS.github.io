@@ -356,45 +356,40 @@
   var count = 0;
   var jumping = false;
 
-  // get random whole numbers in a specific range
-  // @see https://stackoverflow.com/a/1527820/2124254
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
   // x, y
   enemies = [new MadHat(15*grid,3*grid), new MadHat (11*grid,20*grid), new Big_Boy(15*grid,23*grid)]
+
+  map = [["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "1", "1", "1", "b", "1", "1", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
+    ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+  ]
+
 
   // game loop
   function loop() {
     requestAnimationFrame(loop);
-
-    map = [["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "1", "1", "1", "b", "1", "1", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "1", "1", "1", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "2", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["b", "b", "b", "b", "1", "1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
-      ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-    ]
-
 
     // slow game loop to 15 fps instead of 60 (60/15 = 4)
     if (++count < 6) {
@@ -577,27 +572,6 @@
     // });
   }
 
-  // listen to keyboard events to move the snake
-  let isKeyDown = false;
-
-  document.addEventListener('keydown', (event) => {
-    if (!isKeyDown) {
-      if (event.key === 'Enter') { // Replace 'Enter' with the desired key
-        // Code to execute when the key is pressed
-        console.log('Key pressed and held down');
-        isKeyDown = true;
-      }
-    }
-  });
-
-  document.addEventListener('keyup', (event) => {
-    if (event.key === 'Enter') { // Replace 'Enter' with the desired key
-      // Code to execute when the key is released
-      console.log('Key released');
-      isKeyDown = false;
-    }
-  });
-
 
   document.addEventListener('keydown', function(e) {
     // prevent snake from backtracking on itself by checking that it's
@@ -623,12 +597,6 @@
       p.x_previous_pos = p.x_pos;
       p.y_previous_pos = p.y_pos;
       p.x_pos += grid;
-    }
-    // down arrow key
-    else if (e.which === 40 ) {  // && snake.dy === 0
-      p.x_previous_pos = p.x_pos;
-      p.y_previous_pos = p.y_pos;
-      p.y_pos += grid;
     }
     else if (e.key === ' ') {
       // Spacebar was pressed
