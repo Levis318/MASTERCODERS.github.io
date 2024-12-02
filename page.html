@@ -90,7 +90,7 @@
     constructor() {
       // This is where we will add the init states
 
-      this.lives = 20.0;
+      this.lives = 1.0;
       this.y_pos = 320;  // initial spawn point, later actual pos
       this.x_pos = 0;
       this.x_previous_pos = 0;
@@ -101,7 +101,7 @@
       this.min_x_speed = -5 * grid;
       this.y_speed = 0;
       this.x_speed = 0;
-      this.y_respawn_point = 0;
+      this.y_respawn_point = 320;
       this.x_respawn_point = 0;
       this.height = 50;
       this.width = 50;
@@ -439,6 +439,9 @@
         else{
           enemies[e].direction = enemies[e].direction * -1;
         }
+        if(enemies[e].x_pos === p.x_pos && enemies[e].y_pos === p.y_pos){
+          p.lives -= enemies[e].damage;
+        }
       }
     }
 
@@ -526,8 +529,18 @@
     // draw apple
     // context.fillStyle = 'red';
     // context.fillRect(apple.x, apple.y, grid-1, grid-1);
-    context.fillStyle = "blue";
-    context.fillRect(p.x_pos, p.y_pos, grid-1, grid-1);
+    if(p.lives > 0.0){
+      context.fillStyle = "blue";
+      context.fillRect(p.x_pos, p.y_pos, grid-1, grid-1);
+    }
+    else{
+      context.fillStyle = "blue";
+      context.fillRect(p.x_respawn_point, p.y_respawn_point, grid-1, grid-1);
+      p.lives = 3.0;
+      p.x_pos = p.x_respawn_point;
+      p.y_pos = p.y_respawn_point;
+    }
+
 
     // draw snake one cell at a time
     // context.fillStyle = "black";
